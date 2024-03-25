@@ -22,7 +22,7 @@ describe('InMemoryRepository uni tests', () => {
     const entity = new StubEnity({ nmae: 'test name', price: 1 });
     await sut.insert(entity);
 
-    expect(entity.toJSON()).toStrictEqual(sut.items[0].toJSON());
+    expect(sut.items[0].toJSON()).toStrictEqual(entity.toJSON());
   });
 
   it('Should throw an erro when entity not found', async () => {
@@ -37,6 +37,15 @@ describe('InMemoryRepository uni tests', () => {
 
     const result = await sut.findById(entity.id);
 
-    expect(entity.toJSON()).toStrictEqual(result.toJSON());
+    expect(result.toJSON()).toStrictEqual(entity.toJSON());
+  });
+
+  it('Should return all entities', async () => {
+    const entity = new StubEnity({ nmae: 'test name', price: 1 });
+    await sut.insert(entity);
+
+    const result = await sut.findAll();
+
+    expect(result).toStrictEqual([entity]);
   });
 });
