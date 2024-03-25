@@ -72,4 +72,37 @@ describe('InMemorySearchableRepository uni tests', () => {
       expect(spyFilterMethod).toHaveBeenCalledTimes(3);
     });
   });
+
+  describe('applySort method', () => {
+    it('should not sort items', async () => {
+      const items = [
+        new StubEnity({ name: 'b', price: 1 }),
+        new StubEnity({ name: 'a', price: 1 }),
+      ];
+
+      let sortedItems = await sut['applySort'](items, null, null);
+      expect(sortedItems).toStrictEqual(items);
+
+      sortedItems = await sut['applySort'](items, 'price', 'asc');
+      expect(sortedItems).toStrictEqual(items);
+    });
+
+    it('should sort items', async () => {
+      const items = [
+        new StubEnity({ name: 'b', price: 1 }),
+        new StubEnity({ name: 'a', price: 1 }),
+        new StubEnity({ name: 'c', price: 1 }),
+      ];
+
+      let sortedItems = await sut['applySort'](items, 'name', 'asc');
+      expect(sortedItems).toStrictEqual([items[1], items[0], items[2]]);
+
+      sortedItems = await sut['applySort'](items, 'name', 'desc');
+      expect(sortedItems).toStrictEqual([items[2], items[0], items[1]]);
+    });
+  });
+
+  describe('applyPAginate method', () => {});
+
+  describe('search method', () => {});
 });
