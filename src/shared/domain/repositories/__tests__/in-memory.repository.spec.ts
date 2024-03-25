@@ -21,6 +21,6 @@ describe('InMemoryRepository uni tests', () => {
     const entity = new StubEnity({ nmae: 'test name', price: 1 });
     await sut.insert(entity);
 
-    expect(entity.toJson()).toStrictEqual(sut.items[0].toJson());
+    expect(entity.toJSON()).toStrictEqual(sut.items[0].toJSON());
   });
 });
