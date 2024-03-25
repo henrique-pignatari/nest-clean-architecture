@@ -13,7 +13,7 @@ type StubEntityProps = {
 class StubEnity extends Entity<StubEntityProps> {}
 
 class StubInMemorySearchableRepository extends InMemorySearchableRepository<StubEnity> {
-  soratableField: string[] = ['name'];
+  soratableFields: string[] = ['name'];
 
   protected async applyFilter(
     items: StubEnity[],
