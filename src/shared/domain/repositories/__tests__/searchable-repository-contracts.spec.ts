@@ -52,5 +52,90 @@ describe('SearchableRepository', () => {
         expect(sut.perPage).toBe(item.expect);
       });
     });
+
+    it('sort prop', () => {
+      let sut = new SearchParams();
+
+      expect(sut.sort).toBeNull();
+
+      const params = [
+        { sort: null as any, expect: null },
+        { sort: undefined as any, expect: null },
+        { sort: '', expect: null },
+        { sort: 'test', expect: 'test' },
+        { sort: 0, expect: '0' },
+        { sort: -1, expect: '-1' },
+        { sort: 5.5, expect: '5.5' },
+        { sort: true, expect: 'true' },
+        { sort: false, expect: 'false' },
+        { sort: {}, expect: '[object Object]' },
+        { sort: 1, expect: '1' },
+        { sort: 2, expect: '2' },
+        { sort: 25, expect: '25' },
+      ];
+
+      params.forEach(item => {
+        sut = new SearchParams({ sort: item.sort });
+        expect(sut.sort).toBe(item.expect);
+      });
+    });
+
+    it('sortDir prop', () => {
+      let sut = new SearchParams();
+      expect(sut.sortDir).toBeNull();
+
+      sut = new SearchParams({ sort: null });
+      expect(sut.sortDir).toBeNull();
+
+      sut = new SearchParams({ sort: undefined });
+      expect(sut.sortDir).toBeNull();
+
+      sut = new SearchParams({ sort: '' });
+      expect(sut.sortDir).toBeNull();
+
+      const params = [
+        { sortDir: null as any, expect: 'desc' },
+        { sortDir: undefined as any, expect: 'desc' },
+        { sortDir: '', expect: 'desc' },
+        { sortDir: 'test', expect: 'desc' },
+        { sortDir: 0, expect: 'desc' },
+        { sortDir: 'asc', expect: 'asc' },
+        { sortDir: 'ASC', expect: 'asc' },
+        { sortDir: 'desc', expect: 'desc' },
+        { sortDir: 'DESC', expect: 'desc' },
+      ];
+
+      params.forEach(item => {
+        sut = new SearchParams({ sort: 'field', sortDir: item.sortDir });
+        expect(sut.sortDir).toBe(item.expect);
+      });
+    });
+
+    it('filter prop', () => {
+      let sut = new SearchParams();
+
+      expect(sut.filter).toBeNull();
+
+      const params = [
+        { filter: null as any, expect: null },
+        { filter: undefined as any, expect: null },
+        { filter: '', expect: null },
+        { filter: 'test', expect: 'test' },
+        { filter: 0, expect: '0' },
+        { filter: -1, expect: '-1' },
+        { filter: 5.5, expect: '5.5' },
+        { filter: true, expect: 'true' },
+        { filter: false, expect: 'false' },
+        { filter: {}, expect: '[object Object]' },
+        { filter: 1, expect: '1' },
+        { filter: 2, expect: '2' },
+        { filter: 25, expect: '25' },
+      ];
+
+      params.forEach(item => {
+        sut = new SearchParams({ filter: item.filter });
+        expect(sut.filter).toBe(item.expect);
+      });
+    });
   });
 });
