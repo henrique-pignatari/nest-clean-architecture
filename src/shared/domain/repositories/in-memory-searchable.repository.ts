@@ -6,13 +6,22 @@ import {
   SearchableRepositoryInterface,
 } from './searchable-repository-contracts';
 
-export abstract class InMemorySearchableRepository<E extends Entity>
+export abstract class InMemorySearchableRepository<
+    E extends Entity,
+    Filter = string,
+  >
   extends InMemoryRepository<E>
-  implements SearchableRepositoryInterface<E, any, any>
+  implements
+    SearchableRepositoryInterface<
+      E,
+      Filter,
+      SearchParams<Filter>,
+      SearchResult<E, Filter>
+    >
 {
   soratableFields: string[] = [];
 
-  async search(props: SearchParams): Promise<SearchResult<E>> {
+  async search(props: SearchParams<Filter>): Promise<SearchResult<E, Filter>> {
     const itemsFiltered = await this.applyFilter(this.items, props.filter);
     const itemsSorted = await this.applySort(
       itemsFiltered,
@@ -38,7 +47,7 @@ export abstract class InMemorySearchableRepository<E extends Entity>
 
   protected abstract applyFilter(
     items: E[],
-    filter: string | null,
+    filter: Filter | null,
   ): Promise<E[]>;
 
   protected async applySort(
