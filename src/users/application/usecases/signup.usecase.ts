@@ -31,7 +31,7 @@ export namespace SignupUseCase {
         throw new BadRequestError('Input data not provided');
       }
 
-      const hashPassword = this.hashProvider.generateHash(password);
+      const hashPassword = await this.hashProvider.generateHash(password);
 
       await this.userRepository.emailExists(email);
       const entity = new UserEntity(
