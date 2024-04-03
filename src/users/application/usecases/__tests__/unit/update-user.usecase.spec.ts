@@ -28,7 +28,7 @@ describe('UpdateUserUseCase unit tests', () => {
   });
 
   it('Should be able to update user', async () => {
-    const updateSpy = jest.spyOn(repository, 'findById');
+    const updateSpy = jest.spyOn(repository, 'update');
     const items = [new UserEntity(UserDataBuilder({}))];
     repository['items'] = items;
 
