@@ -1,7 +1,7 @@
 import { instanceToPlain } from 'class-transformer';
 import { UserPresenter } from '../../user.presenter';
 
-describe('UsersController unit tests', () => {
+describe('UserPresenter unit tests', () => {
   const createdAt = new Date();
   const props = {
     id: 'a3adb1eb-6643-40b0-bde6-37f2904800bb',
