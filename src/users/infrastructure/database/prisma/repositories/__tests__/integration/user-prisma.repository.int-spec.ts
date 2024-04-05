@@ -76,7 +76,7 @@ describe('UserPrismaRepository integration tests', () => {
 
   it('should update an entity', async () => {
     const entity = new UserEntity(UserDataBuilder({}));
-    const newUSer = await prismaService.user.create({
+    await prismaService.user.create({
       data: entity.toJSON(),
     });
 
