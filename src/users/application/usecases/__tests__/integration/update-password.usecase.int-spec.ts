@@ -86,7 +86,7 @@ describe('UpdatePasswordUseCase integration tests', () => {
     );
   });
 
-  it('should throw an error when new password not provided', async () => {
+  it('should update a user', async () => {
     const oldPassword = await hashProvider.generateHash('OldPassword');
     const entity = new UserEntity(UserDataBuilder({ password: oldPassword }));
     const newUser = await prismaService.user.create({
