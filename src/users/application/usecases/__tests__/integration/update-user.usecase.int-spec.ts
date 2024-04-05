@@ -47,6 +47,6 @@ describe('UpdateUserUseCase integration tests', () => {
 
     const output = await sut.execute({ id: newUser.id, name: 'new Name' });
 
-    expect(output).toBe('new Name');
+    expect(output.name).toBe('new Name');
   });
 });
