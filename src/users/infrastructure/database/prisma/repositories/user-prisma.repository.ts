@@ -1,8 +1,9 @@
 import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.service';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserRepository } from '@/users/domain/repositories/user.repository';
-import { NotFoundError } from 'rxjs';
 import { UserModelMapper } from '../models/user-model.mapper';
+import { NotFoundError } from '@/shared/domain/errors/not-found-error';
+import { ConflictError } from '@/shared/domain/errors/conflict-error copy';
 
 export class UserPrismaRepository implements UserRepository.Repository {
   soratableFields: string[] = ['name', 'createdAt'];
@@ -10,11 +11,29 @@ export class UserPrismaRepository implements UserRepository.Repository {
   constructor(private prismaService: PrismaService) {}
 
   async findByEmail(email: string): Promise<UserEntity> {
-    throw new Error('Method not implemented.');
+    try {
+      const user = await this.prismaService.user.findUnique({
+        where: {
+          email,
+        },
+      });
+
+      return UserModelMapper.toEntity(user);
+    } catch {
+      throw new NotFoundError(`UserModel not found using email ${email}`);
+    }
   }
 
   async emailExists(email: string): Promise<void> {
-    throw new Error('Method not implemented.');
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (user) {
+      throw new ConflictError('Email address already used');
+    }
   }
 
   async search(

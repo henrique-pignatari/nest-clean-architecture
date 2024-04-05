@@ -7,6 +7,7 @@ import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
 import { UserRepository } from '@/users/domain/repositories/user.repository';
+import { ConflictError } from '@/shared/domain/errors/conflict-error copy';
 
 describe('UserPrismaRepository integration tests', () => {
   const prismaService = new PrismaClient();
@@ -115,6 +116,39 @@ describe('UserPrismaRepository integration tests', () => {
     });
 
     expect(output).toBeNull();
+  });
+
+  it('should throw error when entity not found on findByEmail', async () => {
+    await expect(() => sut.findByEmail('fake@email.com')).rejects.toThrow(
+      new NotFoundError('UserModel not found using email fake@email.com'),
+    );
+  });
+
+  it('should find an entity by email', async () => {
+    const entity = new UserEntity(UserDataBuilder({ email: 'a@a.com' }));
+    await prismaService.user.create({
+      data: entity.toJSON(),
+    });
+
+    const output = await sut.findByEmail('a@a.com');
+
+    expect(output.toJSON()).toStrictEqual(entity.toJSON());
+  });
+
+  it('should throw error when registering duplicate user email', async () => {
+    const entity = new UserEntity(UserDataBuilder({ email: 'fake@email.com' }));
+    await prismaService.user.create({
+      data: entity.toJSON(),
+    });
+
+    await expect(() => sut.emailExists('fake@email.com')).rejects.toThrow(
+      new ConflictError('Email address already used'),
+    );
+  });
+
+  it('should not throw error when email not registered', async () => {
+    expect.assertions(0);
+    await sut.emailExists('fake@email.com');
   });
 
   describe('search method tests', () => {
