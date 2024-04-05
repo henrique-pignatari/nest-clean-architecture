@@ -3,8 +3,6 @@ import { setupPrismaTests } from '@/shared/infrastructure/database/prisma/testin
 import { UserPrismaRepository } from '@/users/infrastructure/database/prisma/repositories/user-prisma.repository';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
-import { HashProvider } from '@/shared/application/providers/hash-provider';
-import { BcryptjsHashProvider } from '@/users/infrastructure/providers/hash-provider/bcryptjs-hash.provider';
 import { DeleteUserUseCase } from '../../deleteUser.usecase copy';
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { UserEntity } from '@/users/domain/entities/user.entity';
@@ -41,7 +39,7 @@ describe('DeleteUserUseCase integration tests', () => {
     );
   });
 
-  it('should persist an entity', async () => {
+  it('should delete an entity', async () => {
     const entity = new UserEntity(UserDataBuilder({}));
     const newUser = await prismaService.user.create({
       data: entity.toJSON(),
