@@ -13,7 +13,10 @@ import { GetUserUseCase } from '@/users/application/usecases/getUser.usecase';
 import { ListUsersUseCase } from '@/users/application/usecases/listUsers.usecase';
 import { SearchParams } from '@/shared/domain/repositories/searchable-repository-contracts';
 import { ListUsersDto } from '../../dtos/list-users.dto';
-import { UserPresenter } from '../../presenters/user.presenter';
+import {
+  UserCollectionPresenter,
+  UserPresenter,
+} from '../../presenters/user.presenter';
 
 describe('UsersController unit tests', () => {
   let sut: UsersController;
@@ -177,9 +180,10 @@ describe('UsersController unit tests', () => {
       perPage: 1,
     };
 
-    const result = await sut.search(searchParams);
+    const presenter = await sut.search(searchParams);
 
-    expect(result).toStrictEqual(expectedOutput);
+    expect(presenter).toBeInstanceOf(UserCollectionPresenter);
+    expect(presenter).toEqual(new UserCollectionPresenter(expectedOutput));
     expect(mockListUsersUseCase.execute).toHaveBeenCalledWith(searchParams);
   });
 });
