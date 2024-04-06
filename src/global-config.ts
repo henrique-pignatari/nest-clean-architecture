@@ -5,6 +5,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { WrapperDataInterceptor } from './shared/infrastructure/interceptors/wrapper-data/wrapper-data.interceptor';
+import { ConfilictErrorFilter } from './shared/infrastructure/exception-filters/confilict-error/confilict-error.filter';
 
 export async function applyGlobalConfig(app: INestApplication) {
   app.useGlobalPipes(
@@ -20,4 +21,6 @@ export async function applyGlobalConfig(app: INestApplication) {
     new WrapperDataInterceptor(),
     new ClassSerializerInterceptor(app.get(Reflector)),
   );
+
+  app.useGlobalFilters(new ConfilictErrorFilter());
 }
