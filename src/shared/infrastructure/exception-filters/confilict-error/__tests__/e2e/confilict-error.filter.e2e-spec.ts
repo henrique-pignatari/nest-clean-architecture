@@ -25,10 +25,6 @@ describe('ConfilictErrorFilter', () => {
     await app.init();
   });
 
-  afterAll(async () => {
-    await module.close();
-  });
-
   it('should be defined', () => {
     expect(new ConfilictErrorFilter()).toBeDefined();
   });
