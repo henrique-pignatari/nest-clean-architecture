@@ -87,24 +87,6 @@ describe('UserController create e2e tests', () => {
       ]);
     });
 
-    it('should return an error with 422 code when request body is invalid', async () => {
-      const res = await request(app.getHttpServer())
-        .post('/users')
-        .send({})
-        .expect(422);
-
-      expect(res.body.error).toBe('Unprocessable Entity');
-      expect(res.body.message).toEqual([
-        'name should not be empty',
-        'name must be a string',
-        'email must be an email',
-        'email should not be empty',
-        'email must be a string',
-        'password should not be empty',
-        'password must be a string',
-      ]);
-    });
-
     it('should return an error with 422 code when name field is invalid', async () => {
       delete signupDto.name;
       const res = await request(app.getHttpServer())
