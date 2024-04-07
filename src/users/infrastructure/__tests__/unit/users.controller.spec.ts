@@ -11,7 +11,6 @@ import { UpdatePasswordDto } from '../../dtos/update-password.dto';
 import { DeleteUserUseCase } from '@/users/application/usecases/deleteUser.usecase copy';
 import { GetUserUseCase } from '@/users/application/usecases/getUser.usecase';
 import { ListUsersUseCase } from '@/users/application/usecases/listUsers.usecase';
-import { SearchParams } from '@/shared/domain/repositories/searchable-repository-contracts';
 import { ListUsersDto } from '../../dtos/list-users.dto';
 import {
   UserCollectionPresenter,
@@ -62,23 +61,27 @@ describe('UsersController unit tests', () => {
   });
 
   it('should authenticate a user', async () => {
-    const expectedOutput: SigninUseCase.Output = props;
+    const expectedOutput = 'fake_token';
 
     const mockSigninUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
 
+    const mockAuthService = {
+      generateJwt: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
+    };
+
     sut['signinUseCase'] = mockSigninUseCase as any;
+    sut['authService'] = mockAuthService as any;
 
     const input: SigninDto = {
       email: 'a@a.com',
       password: '1234',
     };
 
-    const presenter = await sut.login(input);
+    const result = await sut.login(input);
 
-    expect(presenter).toBeInstanceOf(UserPresenter);
-    expect(presenter).toStrictEqual(new UserPresenter(expectedOutput));
+    expect(result).toEqual(expectedOutput);
     expect(mockSigninUseCase.execute).toHaveBeenCalledWith(input);
   });
 
