@@ -7,6 +7,7 @@ import {
 import { WrapperDataInterceptor } from './shared/infrastructure/interceptors/wrapper-data/wrapper-data.interceptor';
 import { ConfilictErrorFilter } from './shared/infrastructure/exception-filters/confilict-error/confilict-error.filter';
 import { NotFoundErrorFilter } from './shared/infrastructure/exception-filters/not-found-error/not-found-error.filter';
+import { InvalidPasswordErrorFilter } from './shared/infrastructure/exception-filters/invalid-password-error/invalid-password-error.filter';
 
 export async function applyGlobalConfig(app: INestApplication) {
   app.useGlobalPipes(
@@ -23,5 +24,9 @@ export async function applyGlobalConfig(app: INestApplication) {
     new ClassSerializerInterceptor(app.get(Reflector)),
   );
 
-  app.useGlobalFilters(new ConfilictErrorFilter(), new NotFoundErrorFilter());
+  app.useGlobalFilters(
+    new ConfilictErrorFilter(),
+    new NotFoundErrorFilter(),
+    new InvalidPasswordErrorFilter(),
+  );
 }
