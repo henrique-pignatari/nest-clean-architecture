@@ -9,6 +9,7 @@ import { join } from 'node:path';
 
 @Module({
   providers: [EnvConfigService, ConfigService],
+  exports: [EnvConfigService],
 })
 export class EnvConfigModule extends ConfigModule {
   static forRoot(options: ConfigModuleOptions = {}): DynamicModule {
