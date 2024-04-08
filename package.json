@@ -15,7 +15,7 @@
     "start": "nest start",
     "start:dev": "npx dotenv-cli -e .env.development -- nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "npx dotenv-cli -e .env -- node dist/src/main",
     "test": "npx dotenv-cli -e .env.test -- jest --runInBand",
     "test:unit": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.unit.config.ts",
     "test:int": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.int.config.ts",
