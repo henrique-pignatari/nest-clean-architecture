@@ -8,6 +8,7 @@ import { WrapperDataInterceptor } from './shared/infrastructure/interceptors/wra
 import { ConfilictErrorFilter } from './shared/infrastructure/exception-filters/confilict-error/confilict-error.filter';
 import { NotFoundErrorFilter } from './shared/infrastructure/exception-filters/not-found-error/not-found-error.filter';
 import { InvalidPasswordErrorFilter } from './shared/infrastructure/exception-filters/invalid-password-error/invalid-password-error.filter';
+import { InvalidCredentialsErrorFilter } from './shared/infrastructure/exception-filters/invalid-credentials-error/invalid-credentials-error.filter';
 
 export async function applyGlobalConfig(app: INestApplication) {
   app.useGlobalPipes(
@@ -28,5 +29,6 @@ export async function applyGlobalConfig(app: INestApplication) {
     new ConfilictErrorFilter(),
     new NotFoundErrorFilter(),
     new InvalidPasswordErrorFilter(),
+    new InvalidCredentialsErrorFilter(),
   );
 }
